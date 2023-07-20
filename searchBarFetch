@@ -104,7 +104,7 @@
 
     const searchResults = searchItems(query);
     console.log("Search Results:", searchResults);
-    // Do something with the search results, e.g., display them on the page
+    // display the search results on the page
     displaySearchResults(searchResults);
   }
 
@@ -124,13 +124,13 @@
         const childProduct = document.createElement("div");
         childProduct.className = "childProducts";
         const imgElement = document.createElement("img");
-        imgElement.src = realData[i].image;
+        imgElement.src = realData[results[i].id - 1].image;
         imgElement.style.width = "150px";
         imgElement.style.height = "150px";
         const titleElement = document.createElement("span");
-        titleElement.innerText = realData[i].title;
+        titleElement.innerText = realData[results[i].id - 1].title;
         const priceElement = document.createElement("span");
-        priceElement.innerText = realData[i].price;
+        priceElement.innerText = realData[results[i].id - 1].price;
         priceElement.style.fontSize = "18px";
         childProduct.appendChild(imgElement);
         childProduct.appendChild(titleElement);
