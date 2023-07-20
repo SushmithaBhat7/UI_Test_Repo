@@ -50,6 +50,13 @@
           </div>
         </div>
       </div>
+      <div class="form-group">
+        <label for="sortSelect">Sort By:</label>
+        <select id="sortSelect" class="form-control">
+          <option value="priceLowToHigh">Price: Low to High</option>
+          <option value="priceHighToLow">Price: High to Low</option>
+        </select>
+      </div>
       <div id="products"></div>
     </div>
   </body>
@@ -70,7 +77,7 @@
   let realData = "";
 
   function renderUI(data) {
-    // console.log(data);
+    console.log(data);
     realData = data;
     for (let i = 0; i < data.length; i++) {
       const childProduct = document.createElement("div");
@@ -143,4 +150,53 @@
   // Attach click event listener to the search button
   const searchButton = document.getElementById("searchButton");
   searchButton.addEventListener("click", handleSearch);
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const sortSelect = document.getElementById("sortSelect");
+
+    // Function to render the product list
+    function renderUI(data) {
+      parentProduct.innerHTML = "";
+      console.log(data);
+      realData = data;
+      for (let i = 0; i < data.length; i++) {
+        const childProduct = document.createElement("div");
+        childProduct.className = "childProducts";
+        const imgElement = document.createElement("img");
+        imgElement.src = data[i].image;
+        imgElement.style.width = "150px";
+        imgElement.style.height = "150px";
+        const titleElement = document.createElement("span");
+        titleElement.innerText = data[i].title;
+        const priceElement = document.createElement("span");
+        priceElement.innerText = data[i].price;
+        priceElement.style.fontSize = "18px";
+        childProduct.appendChild(imgElement);
+        childProduct.appendChild(titleElement);
+        childProduct.appendChild(priceElement);
+        parentProduct.appendChild(childProduct);
+      }
+    }
+
+    // Function to sort products by price
+    function sortByPrice(order) {
+      const sortedProducts = realData.slice().sort((a, b) => {
+        console.log("a", a);
+        console.log("b", b);
+        return order === "priceLowToHigh"
+          ? a.price - b.price
+          : b.price - a.price;
+      });
+      renderUI(sortedProducts);
+    }
+
+    // Event listener for changes in the sorting selection
+    sortSelect.addEventListener("change", function () {
+      const selectedValue = this.value;
+      sortByPrice(selectedValue);
+    });
+
+    // Initially render the product list
+    renderUI(realData);
+  });
 </script>
